@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HARV SHIPPED - Unified Educational Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3b82f6',
+                        secondary: '#10b981',
+                        accent: '#f59e0b',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        [x-cloak] { display: none !important; }
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+    </style>
+</head>
+<body class="bg-gray-50 min-h-screen">
+
+    <!-- Navigation Bar -->
+    <nav class="bg-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex">
+                    <div class="flex-shrink-0 flex items-center">
+                        <h1 class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-green-600 text-transparent bg-clip-text">
+                            🚀 HARV SHIPPED
+                        </h1>
+                    </div>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <span id="userInfo" class="text-sm text-gray-600 hidden"></span>
+                    <button id="authBtn" onclick="showAuth()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition duration-200">
+                        Login
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+
+        <!-- Tab Navigation -->
+        <div class="bg-white rounded-lg shadow-md mb-6">
+            <div class="border-b border-gray-200">
+                <nav class="flex -mb-px">
+                    <button onclick="switchTab('dashboard')" class="tab-btn active px-6 py-3 border-b-2 border-blue-600 text-blue-600 font-medium">
+                        📊 Dashboard
+                    </button>
+                    <button onclick="switchTab('pipeline')" class="tab-btn px-6 py-3 border-b-2 border-transparent text-gray-600 hover:text-gray-800 hover:border-gray-300 font-medium">
+                        🔄 Pipeline
+                    </button>
+                    <button onclick="switchTab('curriculum')" class="tab-btn px-6 py-3 border-b-2 border-transparent text-gray-600 hover:text-gray-800 hover:border-gray-300 font-medium">
+                        📚 Curriculum
+                    </button>
+                    <button onclick="switchTab('analyzer')" class="tab-btn px-6 py-3 border-b-2 border-transparent text-gray-600 hover:text-gray-800 hover:border-gray-300 font-medium">
+                        🔍 Analyzer
+                    </button>
+                    <button onclick="switchTab('tutor')" class="tab-btn px-6 py-3 border-b-2 border-transparent text-gray-600 hover:text-gray-800 hover:border-gray-300 font-medium">
+                        🎓 Tutor
+                    </button>
+                </nav>
+            </div>
+        </div>
+
+        <!-- Dashboard Tab -->
+        <div id="dashboard" class="tab-content active">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <!-- Stat Cards -->
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0 bg-blue-500 rounded-md p-3">
+                            <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                            </svg>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-sm font-medium text-gray-600">Total Modules</p>
+                            <p id="totalModules" class="text-2xl font-semibold text-gray-900">0</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0 bg-green-500 rounded-md p-3">
+                            <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                            </svg>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-sm font-medium text-gray-600">Published</p>
+                            <p id="publishedModules" class="text-2xl font-semibold text-gray-900">0</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0 bg-yellow-500 rounded-md p-3">
+                            <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z"></path>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z"></path>
+                            </svg>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-sm font-medium text-gray-600">Avg Quality</p>
+                            <p id="avgQuality" class="text-2xl font-semibold text-gray-900">0.0</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-lg shadow-md p-6">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0 bg-purple-500 rounded-md p-3">
+                            <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                            </svg>
+                        </div>
+                        <div class="ml-4">
+                            <p class="text-sm font-medium text-gray-600">Students</p>
+                            <p id="totalStudents" class="text-2xl font-semibold text-gray-900">0</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- System Status -->
+            <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+                <h2 class="text-xl font-bold text-gray-900 mb-4">🔧 System Status</h2>
+                <div id="systemStatus" class="space-y-3">
+                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                        <span class="text-gray-700">Backend API</span>
+                        <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium">Operational</span>
+                    </div>
+                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                        <span class="text-gray-700">Database</span>
+                        <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium">Connected</span>
+                    </div>
+                    <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                        <span class="text-gray-700">Integration Layer</span>
+                        <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium">Ready</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-xl font-bold text-gray-900 mb-4">⚡ Quick Actions</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <button onclick="switchTab('pipeline')" class="p-4 border-2 border-blue-200 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition duration-200">
+                        <div class="text-3xl mb-2">🔄</div>
+                        <div class="font-semibold text-gray-900">Run Pipeline</div>
+                        <div class="text-sm text-gray-600">Complete automation cycle</div>
+                    </button>
+                    <button onclick="switchTab('curriculum')" class="p-4 border-2 border-green-200 rounded-lg hover:border-green-500 hover:bg-green-50 transition duration-200">
+                        <div class="text-3xl mb-2">📚</div>
+                        <div class="font-semibold text-gray-900">Generate Week</div>
+                        <div class="text-sm text-gray-600">Create new curriculum</div>
+                    </button>
+                    <button onclick="switchTab('analyzer')" class="p-4 border-2 border-yellow-200 rounded-lg hover:border-yellow-500 hover:bg-yellow-50 transition duration-200">
+                        <div class="text-3xl mb-2">🔍</div>
+                        <div class="font-semibold text-gray-900">Analyze Content</div>
+                        <div class="text-sm text-gray-600">Extract patterns</div>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pipeline Tab -->
+        <div id="pipeline" class="tab-content">
+            <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+                <h2 class="text-2xl font-bold text-gray-900 mb-4">🔄 Automation Pipeline</h2>
+                <p class="text-gray-600 mb-6">Run the complete quality assurance and improvement cycle</p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <!-- Import to Harv -->
+                    <div class="border-2 border-gray-200 rounded-lg p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-3">📥 Import to Harv</h3>
+                        <p class="text-sm text-gray-600 mb-4">Convert Steel2 weeks to Harv modules</p>
+                        <div class="space-y-3">
+                            <input type="number" id="importWeek" placeholder="Week number (1-35)" min="1" max="35"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                            <button onclick="importToHarv()" class="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition duration-200">
+                                Import Week
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Validate Quality -->
+                    <div class="border-2 border-gray-200 rounded-lg p-6">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-3">✅ Validate Quality</h3>
+                        <p class="text-sm text-gray-600 mb-4">Check curriculum quality with Doc Digester</p>
+                        <div class="space-y-3">
+                            <input type="number" id="validateWeek" placeholder="Week number (1-35)" min="1" max="35"
+                                class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-transparent">
+                            <button onclick="validateWeek()" class="w-full bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition duration-200">
+                                Validate Week
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Full Cycle -->
+                    <div class="border-2 border-gray-200 rounded-lg p-6 md:col-span-2">
+                        <h3 class="text-lg font-semibold text-gray-900 mb-3">🔁 Complete Cycle</h3>
+                        <p class="text-sm text-gray-600 mb-4">Validate → Import → Collect Feedback → Refine</p>
+                        <div class="flex space-x-3">
+                            <input type="number" id="cycleWeek" placeholder="Week number (1-35)" min="1" max="35"
+                                class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent">
+                            <label class="flex items-center space-x-2">
+                                <input type="checkbox" id="autoRefine" checked class="w-4 h-4 text-purple-600 border-gray-300 rounded focus:ring-purple-500">
+                                <span class="text-sm text-gray-700">Auto-refine</span>
+                            </label>
+                            <button onclick="runFullCycle()" class="bg-purple-600 hover:bg-purple-700 text-white px-6 py-2 rounded-lg transition duration-200">
+                                Run Cycle
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pipeline Results -->
+            <div id="pipelineResults" class="bg-white rounded-lg shadow-md p-6 hidden">
+                <h3 class="text-xl font-bold text-gray-900 mb-4">📊 Pipeline Results</h3>
+                <div id="pipelineOutput" class="bg-gray-50 rounded-lg p-4 font-mono text-sm text-gray-800 max-h-96 overflow-y-auto"></div>
+            </div>
+        </div>
+
+        <!-- Curriculum Tab -->
+        <div id="curriculum" class="tab-content">
+            <div class="bg-white rounded-lg shadow-md p-6 mb-6">
+                <h2 class="text-2xl font-bold text-gray-900 mb-4">📚 Curriculum Manager</h2>
+                <p class="text-gray-600 mb-6">View and manage all 35 weeks of Latin A curriculum</p>
+
+                <!-- Weeks Grid -->
+                <div id="weeksList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    <!-- Will be populated dynamically -->
+                    <div class="text-center py-8 text-gray-500">
+                        Loading weeks...
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content Analyzer Tab -->
+        <div id="analyzer" class="tab-content">
+            <div class="bg-white rounded-lg shadow-md p-6">
+                <h2 class="text-2xl font-bold text-gray-900 mb-4">🔍 Content Analyzer</h2>
+                <p class="text-gray-600 mb-6">Upload and analyze educational content with Doc Digester</p>
+
+                <div class="border-2 border-dashed border-gray-300 rounded-lg p-12 text-center">
+                    <svg class="mx-auto h-12 w-12 text-gray-400 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"></path>
+                    </svg>
+                    <p class="text-gray-700 font-medium mb-2">Drop files here or click to upload</p>
+                    <p class="text-sm text-gray-500 mb-4">Supports: .txt, .docx, .pdf (max 100MB)</p>
+                    <input type="file" id="fileInput" accept=".txt,.docx,.pdf" class="hidden">
+                    <button onclick="document.getElementById('fileInput').click()"
+                        class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition duration-200">
+                        Select File
+                    </button>
+                </div>
+
+                <div id="analysisResults" class="mt-6 hidden">
+                    <h3 class="text-lg font-semibold text-gray-900 mb-3">Analysis Results</h3>
+                    <div id="analysisOutput" class="bg-gray-50 rounded-lg p-4"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- AI Tutor Tab -->
+        <div id="tutor" class="tab-content">
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                <!-- Module List -->
+                <div class="lg:col-span-1 bg-white rounded-lg shadow-md p-6">
+                    <h3 class="text-lg font-bold text-gray-900 mb-4">📖 Modules</h3>
+                    <div id="modulesList" class="space-y-2">
+                        <div class="text-sm text-gray-500">Login to view modules</div>
+                    </div>
+                </div>
+
+                <!-- Chat Interface -->
+                <div class="lg:col-span-3 bg-white rounded-lg shadow-md p-6 flex flex-col" style="height: 600px;">
+                    <h3 class="text-lg font-bold text-gray-900 mb-4">💬 Chat with Sparky</h3>
+
+                    <div id="chatMessages" class="flex-1 overflow-y-auto mb-4 space-y-4 bg-gray-50 rounded-lg p-4">
+                        <div class="text-center text-gray-500 text-sm py-8">
+                            Select a module to start learning
+                        </div>
+                    </div>
+
+                    <div class="flex space-x-2">
+                        <input type="text" id="chatInput" placeholder="Ask a question..."
+                            class="flex-1 px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                            disabled>
+                        <button onclick="sendMessage()" id="sendBtn"
+                            class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg transition duration-200 disabled:bg-gray-400 disabled:cursor-not-allowed"
+                            disabled>
+                            Send
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Auth Modal -->
+    <div id="authModal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden items-center justify-center z-50">
+        <div class="bg-white rounded-lg shadow-xl p-8 max-w-md w-full mx-4">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">🔐 Authentication</h2>
+
+            <div id="authTabs" class="flex mb-6 border-b">
+                <button onclick="switchAuthTab('login')" class="auth-tab-btn flex-1 py-2 border-b-2 border-blue-600 text-blue-600 font-medium">
+                    Login
+                </button>
+                <button onclick="switchAuthTab('register')" class="auth-tab-btn flex-1 py-2 border-b-2 border-transparent text-gray-600">
+                    Register
+                </button>
+            </div>
+
+            <div id="loginForm" class="auth-form">
+                <div class="space-y-4">
+                    <input type="email" id="loginEmail" placeholder="Email"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    <input type="password" id="loginPassword" placeholder="Password"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    <button onclick="login()" class="w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-3 rounded-lg transition duration-200">
+                        Login
+                    </button>
+                </div>
+            </div>
+
+            <div id="registerForm" class="auth-form hidden">
+                <div class="space-y-4">
+                    <input type="text" id="registerName" placeholder="Full Name"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    <input type="email" id="registerEmail" placeholder="Email"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    <input type="password" id="registerPassword" placeholder="Password"
+                        class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                    <button onclick="register()" class="w-full bg-green-600 hover:bg-green-700 text-white px-4 py-3 rounded-lg transition duration-200">
+                        Register
+                    </button>
+                </div>
+            </div>
+
+            <button onclick="hideAuth()" class="mt-4 w-full text-gray-600 hover:text-gray-800">
+                Cancel
+            </button>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toast" class="fixed bottom-4 right-4 bg-gray-900 text-white px-6 py-3 rounded-lg shadow-lg hidden transform transition-all duration-300">
+        <p id="toastMessage"></p>
+    </div>
+
+    <script src="js/app.js"></script>
+</body>
+</html>
